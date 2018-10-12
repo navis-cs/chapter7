@@ -75,7 +75,7 @@ def store_module_result(data):
 
 class GitImporter(object):
 	def _init_(self):
-	self.current_module_code = ""
+	 self.current_module_code = ""
 	
 	def find_module(self,fullname,path=None):
 		if configured:
